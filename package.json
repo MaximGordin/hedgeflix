@@ -1,0 +1,14 @@
+{
+  "name": "hedgeflix",
+  "private": true,
+  "scripts": {
+    "dev:backend": "pnpm --filter backend start:dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write \"**/*.{ts,tsx,json,yaml,yml,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
+  }
+}

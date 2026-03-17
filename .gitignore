@@ -1,0 +1,17 @@
+node_modules
+dist
+build
+.env
+.env.*.local
+.DS_Store
+*.log
+coverage
+.idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.pid
+*.seed
+.temp
+.tmp
+.claude/settings.local.json
