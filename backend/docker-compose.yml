@@ -1,0 +1,14 @@
+services:
+    db:
+        image: postgres:17
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB=postgres
+        volumes:
+            - db-data:/var/lib/postgresql/data
+volumes:
+    db-data:

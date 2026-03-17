@@ -1,0 +1,346 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// MOVIES
+// ─────────────────────────────────────────────
+
+model Movie {
+  id               Int      @id @default(autoincrement())
+  tmdbId           Int      @unique @map("tmdb_id")
+  imdbId           String?  @unique @map("imdb_id")
+  originalTitle    String   @map("original_title")
+  originalLanguage String   @map("original_language")
+  posterPath       String?  @map("poster_path")
+  backdropPath     String?  @map("backdrop_path")
+  releaseDate      DateTime? @map("release_date") @db.Date
+  runtime          Int?
+  budget           BigInt?  @default(0)
+  revenue          BigInt?  @default(0)
+  popularity       Float?   @default(0)
+  status           String?  // Released, Post Production, etc.
+  homepage         String?
+
+  // Awards - строка из OMDb, парсинг числа Оскаров
+  awardsText       String?  @map("awards_text")
+  oscarsWon        Int?     @default(0) @map("oscars_won")
+  totalWins        Int?     @default(0) @map("total_wins")
+  totalNominations Int?     @default(0) @map("total_nominations")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  translations     MovieTranslation[]
+  genres           MovieGenre[]
+  cast             MovieCast[]
+  crew             MovieCrew[]
+  ratings          MovieRating[]
+  videos           MovieVideo[]
+  certifications   MovieCertification[]
+  similarTo        MovieSimilar[]       @relation("SimilarSource")
+  similarFrom      MovieSimilar[]       @relation("SimilarTarget")
+  recommendedTo    MovieRecommendation[] @relation("RecommendationSource")
+  recommendedFrom  MovieRecommendation[] @relation("RecommendationTarget")
+  comments         Comment[]
+  bookmarks        Bookmark[]
+  userRatings      UserRating[]
+  watchedBy        WatchedMovie[]
+
+  @@map("movies")
+}
+
+model MovieTranslation {
+  id       Int    @id @default(autoincrement())
+  movieId  Int    @map("movie_id")
+  language String // "en", "ru", etc. (ISO 639-1)
+  title    String
+  overview String? @db.Text
+  tagline  String?
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, language])
+  @@map("movie_translations")
+}
+
+model MovieRating {
+  id     Int    @id @default(autoincrement())
+  movieId Int   @map("movie_id")
+  source  String // "imdb", "tmdb", "rotten_tomatoes", "metacritic"
+  value   String // "8.8/10", "79%", "66/100", "7.5"
+  score   Float? // Нормализованное значение 0-10 для удобства сортировки
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, source])
+  @@map("movie_ratings")
+}
+
+model MovieVideo {
+  id       Int    @id @default(autoincrement())
+  movieId  Int    @map("movie_id")
+  key      String // YouTube video key
+  name     String
+  site     String @default("YouTube")
+  type     String // Trailer, Teaser, Clip, Featurette
+  language String @default("en")
+  official Boolean @default(true)
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, key])
+  @@map("movie_videos")
+}
+
+model MovieCertification {
+  id            Int    @id @default(autoincrement())
+  movieId       Int    @map("movie_id")
+  country       String // ISO 3166-1 (US, RU, DE, etc.)
+  certification String // "R", "18+", "PG-13"
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, country])
+  @@map("movie_certifications")
+}
+
+// ─────────────────────────────────────────────
+// GENRES
+// ─────────────────────────────────────────────
+
+model Genre {
+  id     Int    @id @default(autoincrement())
+  tmdbId Int    @unique @map("tmdb_id")
+  slug   String @unique // "action", "comedy", etc.
+
+  translations GenreTranslation[]
+  movies       MovieGenre[]
+
+  @@map("genres")
+}
+
+model GenreTranslation {
+  id       Int    @id @default(autoincrement())
+  genreId  Int    @map("genre_id")
+  language String
+  name     String
+
+  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@unique([genreId, language])
+  @@map("genre_translations")
+}
+
+model MovieGenre {
+  movieId Int @map("movie_id")
+  genreId Int @map("genre_id")
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([movieId, genreId])
+  @@map("movie_genres")
+}
+
+// ─────────────────────────────────────────────
+// PERSONS (actors, directors, writers)
+// ─────────────────────────────────────────────
+
+model Person {
+  id             Int       @id @default(autoincrement())
+  tmdbId         Int       @unique @map("tmdb_id")
+  imdbId         String?   @unique @map("imdb_id")
+  name           String
+  profilePath    String?   @map("profile_path")
+  birthday       DateTime? @db.Date
+  deathday       DateTime? @db.Date
+  placeOfBirth   String?   @map("place_of_birth")
+  gender         Int       @default(0) // 0=unset, 1=female, 2=male, 3=non-binary
+  popularity     Float?    @default(0)
+  knownFor       String?   @map("known_for") // "Acting", "Directing", "Writing"
+  homepage       String?
+
+  // Awards (аналогично фильмам)
+  awardsText       String?  @map("awards_text")
+  oscarsWon        Int?     @default(0) @map("oscars_won")
+  totalWins        Int?     @default(0) @map("total_wins")
+  totalNominations Int?     @default(0) @map("total_nominations")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  translations PersonTranslation[]
+  images       PersonImage[]
+  castRoles    MovieCast[]
+  crewRoles    MovieCrew[]
+
+  @@map("persons")
+}
+
+model PersonTranslation {
+  id        Int    @id @default(autoincrement())
+  personId  Int    @map("person_id")
+  language  String
+  name      String?
+  biography String? @db.Text
+
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([personId, language])
+  @@map("person_translations")
+}
+
+model PersonImage {
+  id        Int    @id @default(autoincrement())
+  personId  Int    @map("person_id")
+  filePath  String @map("file_path") // TMDB image path
+  width     Int?
+  height    Int?
+
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@map("person_images")
+}
+
+// ─────────────────────────────────────────────
+// MOVIE ↔ PERSON RELATIONS
+// ─────────────────────────────────────────────
+
+model MovieCast {
+  id        Int    @id @default(autoincrement())
+  movieId   Int    @map("movie_id")
+  personId  Int    @map("person_id")
+  character String?
+  castOrder Int?   @map("cast_order")
+
+  movie  Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, personId, character])
+  @@map("movie_cast")
+}
+
+model MovieCrew {
+  id       Int    @id @default(autoincrement())
+  movieId  Int    @map("movie_id")
+  personId Int    @map("person_id")
+  job      String // "Director", "Writer", "Screenplay", etc.
+
+  movie  Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, personId, job])
+  @@map("movie_crew")
+}
+
+// ─────────────────────────────────────────────
+// MOVIE ↔ MOVIE RELATIONS
+// ─────────────────────────────────────────────
+
+model MovieSimilar {
+  sourceId Int @map("source_id")
+  targetId Int @map("target_id")
+
+  source Movie @relation("SimilarSource", fields: [sourceId], references: [id], onDelete: Cascade)
+  target Movie @relation("SimilarTarget", fields: [targetId], references: [id], onDelete: Cascade)
+
+  @@id([sourceId, targetId])
+  @@map("movie_similar")
+}
+
+model MovieRecommendation {
+  sourceId Int @map("source_id")
+  targetId Int @map("target_id")
+
+  source Movie @relation("RecommendationSource", fields: [sourceId], references: [id], onDelete: Cascade)
+  target Movie @relation("RecommendationTarget", fields: [targetId], references: [id], onDelete: Cascade)
+
+  @@id([sourceId, targetId])
+  @@map("movie_recommendations")
+}
+
+// ─────────────────────────────────────────────
+// USERS
+// ─────────────────────────────────────────────
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  avatarUrl    String?  @map("avatar_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  comments  Comment[]
+  bookmarks Bookmark[]
+  ratings   UserRating[]
+  watched   WatchedMovie[]
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────────
+// USER INTERACTIONS
+// ─────────────────────────────────────────────
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  movieId   Int      @map("movie_id")
+  text      String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Bookmark {
+  userId    Int      @map("user_id")
+  movieId   Int      @map("movie_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@id([userId, movieId])
+  @@map("bookmarks")
+}
+
+model UserRating {
+  userId  Int   @map("user_id")
+  movieId Int   @map("movie_id")
+  score   Float // Оценка пользователя (1-10)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@id([userId, movieId])
+  @@map("user_ratings")
+}
+
+model WatchedMovie {
+  userId    Int      @map("user_id")
+  movieId   Int      @map("movie_id")
+  watchedAt DateTime @default(now()) @map("watched_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@id([userId, movieId])
+  @@map("watched_movies")
+}
