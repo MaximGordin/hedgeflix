@@ -53,7 +53,7 @@ cp .env.example .env
 # 4. Run migrations
 npx prisma migrate dev
 
-# 5. Generate Prisma client
+# 5. Generate prisma client
 npx prisma generate
 
 # 6. Seed the database with movies
