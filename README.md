@@ -188,6 +188,8 @@ pnpm sync:relations
 - [ ] User features (comments, bookmarks, ratings, watch history)
 - [ ] i18n (next-intl, language switcher)
 
+- [ ] Migrate from Jest to Vitest (backend + frontend)
+
 ### To Explore
 - [ ] **Elasticsearch** — full-text search across movies and persons, multi-language analyzers, fuzzy search, autocomplete, faceted filtering (genre + year + rating)
 - [ ] **Redis** — server-side API response caching (complements TanStack Query client-side cache), session storage, rate limiting, real-time popularity counters

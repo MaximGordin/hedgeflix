@@ -50,6 +50,18 @@ Full schema: `backend/prisma/schema.prisma`
 - **CODE STYLE**: Follow project's `.prettierrc` and `eslint.config.mjs` when writing code — single quotes, trailing commas. Always match existing code style in the project.
 - Provide guidance on best practices for NestJS, Next.js, Prisma, and FSD.
 
+## Commits
+
+Short messages (1-3 sentences). No Co-Authored-By or attribution lines. Title + one short paragraph max.
+
+## Testing
+
+- **Framework:** Jest 30 + ts-jest (ESM mode)
+- **Run:** `cd backend && pnpm test`
+- **ESM quirks:** Project uses `"type": "module"`, so Jest requires `--experimental-vm-modules` (already in scripts). Import `describe`, `it`, `expect`, `jest` from `@jest/globals` (not global in ESM).
+- **Pattern:** Unit tests colocated with source files (`*.spec.ts`). Mock Prisma in services, mock services in controllers.
+- **Migration to Vitest planned** (see README roadmap).
+
 ## Commands
 
 - Backend: `cd backend && pnpm start:dev`
