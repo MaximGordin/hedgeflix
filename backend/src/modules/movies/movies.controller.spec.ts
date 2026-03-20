@@ -11,7 +11,7 @@ import { MoviesService } from './movies.service.js';
 // but that would require providing all of MoviesService's own dependencies (PrismaService, etc.).
 // For a controller unit test, a plain mock object is simpler.
 const mockMoviesService = {
-  getMovie: jest.fn(),
+  getMovie: jest.fn<(id: number) => Promise<typeof mockMovie>>(),
 };
 
 const mockMovie = {

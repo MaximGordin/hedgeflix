@@ -14,6 +14,9 @@ importers:
 
   backend:
     dependencies:
+      '@jest/globals':
+        specifier: ^30.3.0
+        version: 30.3.0
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.1.17(reflect-metadata@0.2.2)(rxjs@7.8.2)

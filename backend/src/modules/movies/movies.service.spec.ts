@@ -11,7 +11,7 @@ import { PrismaService } from '../prisma/prisma.service.js';
 // but explicit partial mocks are easier to read and maintain.
 const mockPrismaService = {
   movie: {
-    findUnique: jest.fn(),
+    findUnique: jest.fn<(args: unknown) => Promise<typeof mockMovie | null>>(),
   },
 };
 
