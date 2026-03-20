@@ -17,5 +17,6 @@ jobs:
         with:
           version: 10
       - run: pnpm install
+      - run: cd backend && npx prisma generate
       - run: cd backend && pnpm lint
       - run: cd backend && pnpm test
