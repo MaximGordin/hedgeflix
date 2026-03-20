@@ -189,6 +189,8 @@ pnpm sync:relations
 - [ ] i18n (next-intl, language switcher)
 
 - [ ] Migrate from Jest to Vitest (backend + frontend)
+- [ ] CI/CD (GitHub Actions — lint + tests on push/PR)
+- [ ] Deploy: Vercel (frontend) + Render (backend) + Neon (PostgreSQL)
 
 ### To Explore
 - [ ] **Elasticsearch** — full-text search across movies and persons, multi-language analyzers, fuzzy search, autocomplete, faceted filtering (genre + year + rating)
