@@ -22,20 +22,18 @@
 }
 
 /* Dark theme */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-accent: #8b5cf6;
-    --color-accent-hover: #a78bfa;
-    --color-accent-light: #2e1065;
-    --color-bg: #141414;
-    --color-border: #2a2a2a;
-    --color-container: #25272b;
-    --color-deep: #0f0f0f;
-    --color-muted: #b0b0b0;
-    --color-surface: #1a1a1a;
-    --color-surface-hover: #222222;
-    --color-text: #ffffff;
-  }
+:root[data-theme='dark'] {
+  --color-accent: #8b5cf6;
+  --color-accent-hover: #a78bfa;
+  --color-accent-light: #2e1065;
+  --color-bg: #141414;
+  --color-border: #2a2a2a;
+  --color-container: #25272b;
+  --color-deep: #0f0f0f;
+  --color-muted: #b0b0b0;
+  --color-surface: #1a1a1a;
+  --color-surface-hover: #222222;
+  --color-text: #ffffff;
 }
 
 @theme inline {
