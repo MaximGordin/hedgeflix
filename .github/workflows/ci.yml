@@ -29,3 +29,4 @@ jobs:
       - run: cd backend && npx prisma generate
       - run: cd backend && pnpm lint
       - run: cd backend && pnpm test
+      - run: cd frontend && pnpm lint

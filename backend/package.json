@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed:movies": "tsx scripts/seed-movies.ts",
     "sync:movies": "tsx scripts/seed-movies.ts --sync",
-    "sync:relations": "tsx scripts/sync-relations.ts"
+    "sync:relations": "tsx scripts/sync-relations.ts",
+    "studio": "prisma studio --port 3002"
   },
   "dependencies": {
     "@jest/globals": "^30.3.0",
