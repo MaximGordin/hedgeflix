@@ -8,7 +8,7 @@ Movie catalog application. New version of [moviebox](../moviebox/).
 - **Frontend:** Next.js (App Router) + Feature-Sliced Design (FSD)
 - **ORM:** Prisma
 - **Package manager:** pnpm (workspaces)
-- **Design:** Pencil file at `/Users/maximgordin/Documents/Pencil/HedgFlex.pen`
+- **Design:** Pencil file at `design/HedgFlex.pen`
 
 ## Monorepo Structure
 
@@ -66,6 +66,7 @@ Short messages (1-3 sentences). No Co-Authored-By or attribution lines. Title + 
 
 - Backend: `cd backend && pnpm start:dev`
 - Backend tests: `cd backend && pnpm test`
+- CI: GitHub Actions (`ci.yml`) — runs lint + tests on push to main and on PRs
 
 ## Previous Version Reference
 

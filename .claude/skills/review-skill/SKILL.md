@@ -1,8 +1,8 @@
 ---
-name: review
+name: review-skill
 description: Review changed files for bugs, improvements, and refactoring opportunities. Use when the user wants a code review of their recent changes.
 disable-model-invocation: true
-allowed-tools: Read, Grep, Glob, Bash(git *)
+allowed-tools: Read, Grep, Glob, Bash(git *), Edit
 ---
 
 # Code Review — Changed Files
@@ -104,7 +104,7 @@ When reviewing, apply official best practices for each technology used in the pr
 - **Prisma**: efficient queries (avoid N+1), proper use of `select`/`include` to limit fetched data, transactions where needed, proper error handling for Prisma exceptions (`PrismaClientKnownRequestError`), using generated types instead of `any`
 - **Next.js (App Router)**: correct use of server/client components, proper data fetching patterns, metadata API, route handlers, avoiding unnecessary `'use client'`, proper loading/error boundaries
 - **Feature-Sliced Design (FSD)**: correct layer hierarchy (app → pages → widgets → features → entities → shared), no cross-slice imports within the same layer, public API via index files, proper slice isolation
-- **TypeScript**: strict typing, no unnecessary `any`, proper use of generics, discriminated unions over type assertions, `unknown` over `any` for unsafe data
+- **TypeScript**: strict typing, no unnecessary `any`, proper use of generics, discriminated unions over type assertions, `unknown` over `any` for unsafe data. **Type annotation hygiene:** flag missing annotations where TS cannot infer (function params, empty arrays/objects, `let` declarations, public API exports) AND flag redundant annotations where TS already infers correctly (`const` with literal, `as const`, return of typed function calls). Remove unused type imports.
 - **Tailwind CSS**: consistent use of design tokens, avoiding arbitrary values when utility classes exist, responsive design patterns, proper dark mode handling
 - **General**: SOLID principles, DRY (but not premature abstraction), proper error handling, security (OWASP top 10), performance considerations
 
@@ -117,3 +117,20 @@ When reviewing, apply official best practices for each technology used in the pr
 - Be specific — include file paths, line numbers, and concrete code examples
 - If there are NO findings at a severity level, skip that section entirely
 - If the changes look good overall, say so briefly at the end
+
+## Auto-fix
+
+Immediately fix (using Edit tool) minor stylistic issues that don't affect logic. Do NOT report these as findings — just fix them silently and list what was fixed at the end of the review under a "🔧 Auto-fixed" section.
+
+What to auto-fix:
+- Missing newline at end of file
+- Trailing whitespace
+- Missing blank line between logical blocks (imports vs code, metadata vs component, etc.)
+- Double spaces in strings/classNames
+- Unused imports that are obviously dead (not just potentially unused)
+
+What NOT to auto-fix (report as findings instead):
+- Anything that changes runtime behavior
+- Renaming variables/functions
+- Restructuring code
+- Adding/removing logic

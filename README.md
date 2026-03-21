@@ -188,14 +188,19 @@ pnpm sync:relations
 - [ ] User features (comments, bookmarks, ratings, watch history)
 - [ ] i18n (next-intl, language switcher)
 
+- [ ] Platform-aware keyboard shortcuts (`<Kbd>` component + `usePlatform` hook)
 - [ ] Migrate from Jest to Vitest (backend + frontend)
-- [ ] CI/CD (GitHub Actions — lint + tests on push/PR)
+- [x] CI/CD (GitHub Actions — lint + tests on push/PR)
 - [ ] Deploy: Vercel (frontend) + Render (backend) + Neon (PostgreSQL)
 
 ### To Explore
 - [ ] **Elasticsearch** — full-text search across movies and persons, multi-language analyzers, fuzzy search, autocomplete, faceted filtering (genre + year + rating)
 - [ ] **Redis** — server-side API response caching (complements TanStack Query client-side cache), session storage, rate limiting, real-time popularity counters
 - [ ] Structured awards (Wikidata SPARQL or manual entry for detailed Oscar categories)
+
+## API Documentation
+
+Swagger UI is available at `/api/doc` when the backend is running.
 
 ## Development
 
