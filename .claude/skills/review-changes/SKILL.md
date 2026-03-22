@@ -1,5 +1,5 @@
 ---
-name: review-skill
+name: review-changes
 description: Review changed files for bugs, improvements, and refactoring opportunities. Use when the user wants a code review of their recent changes.
 disable-model-invocation: true
 allowed-tools: Read, Grep, Glob, Bash(git *), Edit

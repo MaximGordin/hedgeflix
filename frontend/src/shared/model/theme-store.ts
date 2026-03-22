@@ -1,7 +1,7 @@
 import { create } from 'zustand/react';
 import { persist } from 'zustand/middleware';
 
-export type Theme = 'light' | 'dark' | 'system';
+export type Theme = 'light' | 'dark' | 'system' | null;
 
 interface ThemeState {
   theme: Theme;
@@ -11,7 +11,7 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
-      theme: 'system',
+      theme: null,
       setTheme: (theme) => {
         set({theme});
       },

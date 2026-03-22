@@ -1,8 +1,8 @@
 import { Menu, Search, User } from 'lucide-react';
 import { Logo } from '@shared/ui/Logo';
 import Link from 'next/link';
-import { LangSwitcher } from '@widgets/ui/LangSwitcher';
-import { ThemeSwitcher } from '@widgets/ui/ThemeSwitcher';
+import { LangSwitcher } from '@features/LangSwitcher';
+import { ThemeSwitcher } from '@features/ThemeSwitcher';
 
 
 export const Header = () => {

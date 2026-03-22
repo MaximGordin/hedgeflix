@@ -23,7 +23,7 @@ export const ThemeSwitcher = ({className}: ThemeSwitcherProps) => {
 
     function apply() {
       const applied = currentTheme === 'system' ? (media.matches ? 'dark' : 'light') : currentTheme;
-      document.documentElement.setAttribute('data-theme', applied);
+      document.documentElement.setAttribute('data-theme', applied ?? '');
     }
 
     apply();
@@ -37,16 +37,16 @@ export const ThemeSwitcher = ({className}: ThemeSwitcherProps) => {
     <div className={className}>
       {Themes.map((theme) => {
         return (
-          <div
-            key={theme.code}
-            className={`flex items-center justify-center gap-1 px-3 text-muted cursor-pointer rounded-sm ${currentTheme === theme.code ? 'bg-accent text-white' : ''}`}
-            onClick={() => {
-              setCurrentTheme(theme.code);
-            }}
+          <button aria-label={`Set ${theme.title} theme`}
+                  key={theme.code}
+                  className={`flex items-center justify-center gap-1 px-3 text-muted cursor-pointer rounded-sm ${currentTheme === theme.code ? 'bg-accent text-white' : ''}`}
+                  onClick={() => {
+                    setCurrentTheme(theme.code);
+                  }}
           >
             <theme.Icon size={16} />
             <span className="text-sm font-semibold">{theme.title}</span>
-          </div>
+          </button>
         );
       })}
     </div>

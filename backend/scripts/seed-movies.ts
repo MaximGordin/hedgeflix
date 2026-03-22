@@ -15,8 +15,15 @@
  */
 
 import 'dotenv/config';
-import { PrismaClient } from '../generated/prisma/client.ts';
+import { Gender, PrismaClient } from '../generated/prisma/client.ts';
 import { PrismaPg } from '@prisma/adapter-pg';
+
+const TMDB_GENDER_MAP: Record<number, Gender> = {
+  0: Gender.UNSET,
+  1: Gender.FEMALE,
+  2: Gender.MALE,
+  3: Gender.NON_BINARY,
+};
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -395,7 +402,7 @@ async function upsertPersonBasic(
       tmdbId: member.id,
       name: member.name,
       profilePath: member.profile_path || null,
-      gender: member.gender ?? 0,
+      gender: TMDB_GENDER_MAP[member.gender ?? 0] ?? Gender.UNSET,
       popularity: member.popularity ?? 0,
       knownFor: member.known_for_department || null,
     },
@@ -425,7 +432,7 @@ async function upsertPersonFull(tmdbId: number) {
       birthday: details.birthday ? new Date(details.birthday) : null,
       deathday: details.deathday ? new Date(details.deathday) : null,
       placeOfBirth: details.place_of_birth || null,
-      gender: details.gender ?? 0,
+      gender: TMDB_GENDER_MAP[details.gender ?? 0] ?? Gender.UNSET,
       popularity: details.popularity ?? 0,
       knownFor: details.known_for_department || null,
       homepage: details.homepage || null,
@@ -437,7 +444,7 @@ async function upsertPersonFull(tmdbId: number) {
       birthday: details.birthday ? new Date(details.birthday) : null,
       deathday: details.deathday ? new Date(details.deathday) : null,
       placeOfBirth: details.place_of_birth || null,
-      gender: details.gender ?? 0,
+      gender: TMDB_GENDER_MAP[details.gender ?? 0] ?? Gender.UNSET,
       popularity: details.popularity ?? 0,
       knownFor: details.known_for_department || null,
       homepage: details.homepage || null,

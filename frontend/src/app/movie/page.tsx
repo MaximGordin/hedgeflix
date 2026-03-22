@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Hedgeflix | Movie',
+  title: 'Movie',
   description: 'Movie Page',
 };
 
