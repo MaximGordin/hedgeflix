@@ -153,6 +153,13 @@ model MovieGenre {
 // PERSONS (actors, directors, writers)
 // ─────────────────────────────────────────────
 
+enum Gender {
+  UNSET
+  FEMALE
+  MALE
+  NON_BINARY
+}
+
 model Person {
   id             Int       @id @default(autoincrement())
   tmdbId         Int       @unique @map("tmdb_id")
@@ -162,7 +169,7 @@ model Person {
   birthday       DateTime? @db.Date
   deathday       DateTime? @db.Date
   placeOfBirth   String?   @map("place_of_birth")
-  gender         Int       @default(0) // 0=unset, 1=female, 2=male, 3=non-binary
+  gender         Gender    @default(UNSET)
   popularity     Float?    @default(0)
   knownFor       String?   @map("known_for") // "Acting", "Directing", "Writing"
   homepage       String?
@@ -207,6 +214,7 @@ model PersonImage {
 
   person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
 
+  @@index([personId])
   @@map("person_images")
 }
 
@@ -225,6 +233,7 @@ model MovieCast {
   person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
 
   @@unique([movieId, personId, character])
+  @@index([personId])
   @@map("movie_cast")
 }
 
@@ -238,6 +247,7 @@ model MovieCrew {
   person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
 
   @@unique([movieId, personId, job])
+  @@index([personId])
   @@map("movie_crew")
 }
 
@@ -253,6 +263,7 @@ model MovieSimilar {
   target Movie @relation("SimilarTarget", fields: [targetId], references: [id], onDelete: Cascade)
 
   @@id([sourceId, targetId])
+  @@index([targetId])
   @@map("movie_similar")
 }
 
@@ -264,6 +275,7 @@ model MovieRecommendation {
   target Movie @relation("RecommendationTarget", fields: [targetId], references: [id], onDelete: Cascade)
 
   @@id([sourceId, targetId])
+  @@index([targetId])
   @@map("movie_recommendations")
 }
 
@@ -304,6 +316,8 @@ model Comment {
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
 
+  @@index([movieId])
+  @@index([userId])
   @@map("comments")
 }
 
@@ -316,6 +330,7 @@ model Bookmark {
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
 
   @@id([userId, movieId])
+  @@index([movieId])
   @@map("bookmarks")
 }
 
@@ -330,6 +345,7 @@ model UserRating {
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
 
   @@id([userId, movieId])
+  @@index([movieId])
   @@map("user_ratings")
 }
 
@@ -342,5 +358,6 @@ model WatchedMovie {
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
 
   @@id([userId, movieId])
+  @@index([movieId])
   @@map("watched_movies")
 }

@@ -21,7 +21,7 @@ hedgeflix/
 │   ├── prisma/             # Schema & migrations
 │   ├── scripts/            # Seed & sync scripts
 │   └── generated/          # Prisma client (auto-generated, git-ignored)
-├── frontend/               # Next.js App Router (planned)
+├── frontend/               # Next.js App Router + FSD
 ├── packages/
 │   └── shared/             # @hedgeflix/shared — shared types, DTOs, constants (planned)
 ├── package.json            # Workspace root
@@ -39,11 +39,11 @@ hedgeflix/
 ### Setup
 
 ```bash
-# 1. Install dependencies
-cd backend
+# 1. Install all dependencies (from repo root)
 pnpm install
 
 # 2. Start PostgreSQL
+cd backend
 docker compose up -d
 
 # 3. Copy environment variables
@@ -59,8 +59,10 @@ npx prisma generate
 # 6. Seed the database with movies
 pnpm seed:movies -- --limit 20 --min-rating 7.5 --min-year 2000
 
-# 7. Start the dev server
-pnpm start:dev
+# 7. Start dev servers
+pnpm start:dev        # Backend  → http://localhost:3001
+cd ../frontend
+pnpm dev              # Frontend → http://localhost:3000
 ```
 
 ## Database
@@ -182,7 +184,7 @@ pnpm sync:relations
 ## Roadmap
 
 ### Planned
-- [ ] Frontend (Next.js App Router + FSD)
+- [x] Frontend scaffold (Next.js App Router + FSD + header, theme switcher)
 - [ ] Auth module (registration, login, JWT)
 - [ ] Movie browsing UI (catalog, filters, movie page)
 - [ ] User features (comments, bookmarks, ratings, watch history)
@@ -194,6 +196,7 @@ pnpm sync:relations
 - [ ] Deploy: Vercel (frontend) + Render (backend) + Neon (PostgreSQL)
 
 ### To Explore
+- [ ] **LLM auto-translation** — translate movie descriptions to unsupported languages (e.g. Belarusian) via Claude Haiku (~$5 per 15K movies)
 - [ ] **Elasticsearch** — full-text search across movies and persons, multi-language analyzers, fuzzy search, autocomplete, faceted filtering (genre + year + rating)
 - [ ] **Redis** — server-side API response caching (complements TanStack Query client-side cache), session storage, rate limiting, real-time popularity counters
 - [ ] Structured awards (Wikidata SPARQL or manual entry for detailed Oscar categories)
@@ -208,12 +211,17 @@ Swagger UI is available at `/api/doc` when the backend is running.
 # Start backend in watch mode
 cd backend && pnpm start:dev
 
+# Start frontend in dev mode
+cd frontend && pnpm dev
+
 # Run tests
 cd backend && pnpm test
 
 # Lint
 cd backend && pnpm lint
+cd frontend && pnpm lint
 
 # Format
 cd backend && pnpm format
+cd frontend && pnpm format
 ```

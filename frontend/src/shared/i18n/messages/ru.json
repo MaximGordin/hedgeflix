@@ -1,0 +1,26 @@
+{
+  "header": {
+    "openMenu": "Открыть меню",
+    "movies": "Фильмы",
+    "series": "Сериалы",
+    "surpriseMe": "Мне повезёт!",
+    "search": "Поиск",
+    "openAccount": "Открыть меню аккаунта"
+  },
+  "themeSwitcher": {
+    "dark": "Тёмная",
+    "light": "Светлая",
+    "system": "Системная",
+    "setTheme": "Установить тему: {theme}"
+  },
+  "langSwitcher": {
+    "openPopup": "Выбрать язык"
+  },
+  "homePage": {
+    "title": "Главная"
+  },
+  "moviePage": {
+    "title": "Фильм",
+    "description": "Страница фильма"
+  }
+}

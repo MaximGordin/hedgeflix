@@ -17,7 +17,7 @@ hedgeflix/
 ├── backend/          # NestJS
 ├── frontend/         # Next.js App Router
 ├── packages/
-│   └── shared/       # @hedgeflix/shared — shared types, DTOs, constants
+│   └── shared/       # @hedgeflix/shared — shared types, DTOs, constants (planned)
 ├── package.json      # workspace root
 └── pnpm-workspace.yaml
 ```
@@ -64,9 +64,11 @@ Short messages (1-3 sentences). No Co-Authored-By or attribution lines. Title + 
 
 ## Commands
 
-- Backend: `cd backend && pnpm start:dev`
+- Backend dev: `cd backend && pnpm start:dev`
 - Backend tests: `cd backend && pnpm test`
-- CI: GitHub Actions (`ci.yml`) — runs lint + tests on push to main and on PRs
+- Frontend dev: `cd frontend && pnpm dev`
+- Format check: `cd backend && pnpm format:check` / `cd frontend && pnpm format:check`
+- CI: GitHub Actions (`ci.yml`) — runs lint + format:check + tests on push to main and on PRs
 
 ## Previous Version Reference
 

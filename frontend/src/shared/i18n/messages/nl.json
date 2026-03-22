@@ -1,0 +1,26 @@
+{
+  "header": {
+    "openMenu": "Mobiel menu openen",
+    "movies": "Films",
+    "series": "Series",
+    "surpriseMe": "Verras me!",
+    "search": "Zoeken",
+    "openAccount": "Accountmenu openen"
+  },
+  "themeSwitcher": {
+    "dark": "Donker",
+    "light": "Licht",
+    "system": "Systeem",
+    "setTheme": "{theme} thema instellen"
+  },
+  "langSwitcher": {
+    "openPopup": "Taal kiezen"
+  },
+  "homePage": {
+    "title": "Startpagina"
+  },
+  "moviePage": {
+    "title": "Film",
+    "description": "Filmpagina"
+  }
+}

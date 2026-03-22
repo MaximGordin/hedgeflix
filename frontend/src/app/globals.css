@@ -34,6 +34,12 @@
   --color-surface: #1a1a1a;
   --color-surface-hover: #222222;
   --color-text: #ffffff;
+
+  --color-danger: #dc2626;
+  --color-info: #2563eb;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-rating: #facc15;
 }
 
 @theme inline {
