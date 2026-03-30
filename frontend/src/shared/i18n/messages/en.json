@@ -1,0 +1,26 @@
+{
+  "header": {
+    "openMenu": "Open mobile menu",
+    "movies": "Movies",
+    "series": "Series",
+    "surpriseMe": "Surprise Me!",
+    "search": "Search",
+    "openAccount": "Open account menu"
+  },
+  "themeSwitcher": {
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "setTheme": "Set {theme} theme"
+  },
+  "langSwitcher": {
+    "openDialog": "Open dialog with languages"
+  },
+  "homePage": {
+    "title": "Home Page"
+  },
+  "moviePage": {
+    "title": "Movie",
+    "description": "Movie Page"
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { Monitor, Moon, Sun } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 import { useThemeStore } from '@shared/model';
 
@@ -9,12 +10,13 @@ type ThemeSwitcherProps = {
 };
 
 const Themes = [
-  { code: 'dark', title: 'Dark', Icon: Moon },
-  { code: 'light', title: 'Light', Icon: Sun },
-  { code: 'system', title: 'System', Icon: Monitor },
+  { code: 'dark', title: 'dark', Icon: Moon },
+  { code: 'light', title: 'light', Icon: Sun },
+  { code: 'system', title: 'system', Icon: Monitor },
 ] as const;
 
 export const ThemeSwitcher = ({className}: ThemeSwitcherProps) => {
+  const t = useTranslations('themeSwitcher');
   const currentTheme = useThemeStore((s) => s.theme);
   const setCurrentTheme = useThemeStore((s) => s.setTheme);
 
@@ -37,7 +39,7 @@ export const ThemeSwitcher = ({className}: ThemeSwitcherProps) => {
     <div className={className}>
       {Themes.map((theme) => {
         return (
-          <button aria-label={`Set ${theme.title} theme`}
+          <button aria-label={t('setTheme', { theme: t(theme.title) })}
                   key={theme.code}
                   className={`flex items-center justify-center gap-1 px-3 text-muted cursor-pointer rounded-sm ${currentTheme === theme.code ? 'bg-accent text-white' : ''}`}
                   onClick={() => {
@@ -45,7 +47,7 @@ export const ThemeSwitcher = ({className}: ThemeSwitcherProps) => {
                   }}
           >
             <theme.Icon size={16} />
-            <span className="text-sm font-semibold">{theme.title}</span>
+            <span className="text-sm font-semibold">{t(theme.title)}</span>
           </button>
         );
       })}

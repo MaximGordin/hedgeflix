@@ -1,14 +1,16 @@
 import { Menu, Search, User } from 'lucide-react';
 import { Logo } from '@shared/ui/Logo';
-import Link from 'next/link';
+import { Link } from '@shared/i18n/navigation';
 import { LangSwitcher } from '@features/LangSwitcher';
 import { ThemeSwitcher } from '@features/ThemeSwitcher';
+import { getTranslations } from 'next-intl/server';
 
+export const Header = async () => {
+  const t = await getTranslations('header');
 
-export const Header = () => {
   return (
     <header className="flex items-center gap-3 lg:gap-8 px-4 md:px-8 py-4 bg-surface border-b border-border">
-      <button className="md:hidden" aria-label="Open mobile menu">
+      <button className="md:hidden" aria-label={t('openMenu')}>
         <Menu size={24} />
       </button>
       <Logo />
@@ -16,24 +18,24 @@ export const Header = () => {
         <ul className="flex items-center gap-2 lg:gap-4 h-10 font-medium">
           <li>
             <Link className="hover:text-accent py-2 px-1" href={'/movie'}>
-              Movies
+              {t('movies')}
             </Link>
           </li>
           <li>
             <Link className="hover:text-accent py-2 px-1" href={'/series'}>
-              Series
+              {t('series')}
             </Link>
           </li>
           <li>
             <Link className="hover:text-accent py-2 px-1" href={'/random'}>
-              Surprise Me!
+              {t('surpriseMe')}
             </Link>
           </li>
         </ul>
       </nav>
       <div className="flex items-center ml-auto gap-3 md:gap-6">
         <button
-          aria-label="Search"
+          aria-label={t('search')}
           className="flex items-center justify-center gap-1 h-10 px-2 rounded-sm border border-border cursor-pointer"
         >
           <Search size={17} className="text-muted" />
@@ -44,7 +46,7 @@ export const Header = () => {
 
         <button
           className="flex items-center justify-center w-10 h-10 bg-container rounded-full cursor-pointer"
-          aria-label="Open account menu"
+          aria-label={t('openAccount')}
         >
           <User size={16} className="text-muted" />
         </button>

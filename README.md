@@ -196,6 +196,7 @@ pnpm sync:relations
 - [ ] Deploy: Vercel (frontend) + Render (backend) + Neon (PostgreSQL)
 
 ### To Explore
+- [ ] **LLM auto-translation** — translate movie descriptions to unsupported languages (e.g. Belarusian) via Claude Haiku (~$5 per 15K movies)
 - [ ] **Elasticsearch** — full-text search across movies and persons, multi-language analyzers, fuzzy search, autocomplete, faceted filtering (genre + year + rating)
 - [ ] **Redis** — server-side API response caching (complements TanStack Query client-side cache), session storage, rate limiting, real-time popularity counters
 - [ ] Structured awards (Wikidata SPARQL or manual entry for detailed Oscar categories)
