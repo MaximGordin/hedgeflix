@@ -14,7 +14,7 @@
     "setTheme": "{theme} thema instellen"
   },
   "langSwitcher": {
-    "openPopup": "Taal kiezen"
+    "openDialog": "Dialoog openen met talen"
   },
   "homePage": {
     "title": "Startpagina"

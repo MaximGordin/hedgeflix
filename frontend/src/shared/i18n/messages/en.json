@@ -14,7 +14,7 @@
     "setTheme": "Set {theme} theme"
   },
   "langSwitcher": {
-    "openPopup": "Open popup with languages"
+    "openDialog": "Open dialog with languages"
   },
   "homePage": {
     "title": "Home Page"

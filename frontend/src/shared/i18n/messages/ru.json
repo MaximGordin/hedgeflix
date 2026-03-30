@@ -14,7 +14,7 @@
     "setTheme": "Установить тему: {theme}"
   },
   "langSwitcher": {
-    "openPopup": "Выбрать язык"
+    "openDialog": "Открыть диалог с языками"
   },
   "homePage": {
     "title": "Главная"

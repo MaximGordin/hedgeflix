@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Script from 'next/script';
+
 import { getLocale } from 'next-intl/server';
 import '@app/globals.css';
 
@@ -26,9 +26,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
-      <body className="min-h-full">
-        <Script id="theme-init" strategy="beforeInteractive">
-          {`(function () {
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function () {
               try {
                 var s = JSON.parse(localStorage.getItem('theme') || '{}');
                 var t = (s && s.state && s.state.theme) || 'system';
@@ -36,8 +37,11 @@ export default async function RootLayout({
                   t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme:dark)').matches);
                 document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
               } catch (e) {}
-          })()`}
-        </Script>
+            })()`,
+          }}
+        />
+      </head>
+      <body className="min-h-full">
         {children}
       </body>
     </html>

@@ -71,3 +71,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
 }
+
+::backdrop {
+  @apply bg-[#000]/50 cursor-pointer;
+}
