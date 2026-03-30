@@ -188,7 +188,7 @@ pnpm sync:relations
 - [ ] Auth module (registration, login, JWT)
 - [ ] Movie browsing UI (catalog, filters, movie page)
 - [ ] User features (comments, bookmarks, ratings, watch history)
-- [ ] i18n (next-intl, language switcher)
+- [x] i18n (next-intl, language switcher, en/ru/nl)
 
 - [ ] Platform-aware keyboard shortcuts (`<Kbd>` component + `usePlatform` hook)
 - [ ] Migrate from Jest to Vitest (backend + frontend)

@@ -1,6 +1,5 @@
 import { getTranslations } from 'next-intl/server';
 
-// @TODO add dynamic title/description
 export async function generateMetadata() {
   const t = await getTranslations('moviePage');
   return {

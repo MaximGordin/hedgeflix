@@ -6,6 +6,8 @@ Movie catalog application. New version of [moviebox](../moviebox/).
 
 - **Backend:** NestJS 11 + Prisma 7 + PostgreSQL
 - **Frontend:** Next.js (App Router) + Feature-Sliced Design (FSD)
+- **i18n:** next-intl (en, ru, nl) — locale routing via middleware
+- **State:** Zustand (theme store)
 - **ORM:** Prisma
 - **Package manager:** pnpm (workspaces)
 - **Design:** Pencil file at `design/HedgFlex.pen`
@@ -64,10 +66,10 @@ Short messages (1-3 sentences). No Co-Authored-By or attribution lines. Title + 
 
 ## Commands
 
-- Backend dev: `cd backend && pnpm start:dev`
-- Backend tests: `cd backend && pnpm test`
-- Frontend dev: `cd frontend && pnpm dev`
-- Format check: `cd backend && pnpm format:check` / `cd frontend && pnpm format:check`
+- Backend dev: `pnpm --filter backend start:dev`
+- Backend tests: `pnpm --filter backend test`
+- Frontend dev: `pnpm --filter frontend dev`
+- Format check: `pnpm --filter backend format:check` / `pnpm --filter frontend format:check`
 - CI: GitHub Actions (`ci.yml`) — runs lint + format:check + tests on push to main and on PRs
 
 ## Previous Version Reference
