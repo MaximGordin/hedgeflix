@@ -21,6 +21,9 @@
   },
   "moviePage": {
     "title": "Film",
-    "description": "Filmpagina"
+    "description": "Filmpagina",
+    "originalTitle": "Originele titel",
+    "totalGross": "Totale opbrengst",
+    "budget": "Budget"
   }
 }

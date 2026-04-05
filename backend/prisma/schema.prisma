@@ -23,9 +23,10 @@ model Movie {
   runtime          Int?
   budget           BigInt?  @default(0)
   revenue          BigInt?  @default(0)
-  popularity       Float?   @default(0)
-  status           String?  // Released, Post Production, etc.
-  homepage         String?
+  popularity            Float?   @default(0)
+  status                String?  // Released, Post Production, etc.
+  homepage              String?
+  productionCountries   String[] @map("production_countries")
 
   // Awards - строка из OMDb, парсинг числа Оскаров
   awardsText       String?  @map("awards_text")
@@ -73,9 +74,10 @@ model MovieTranslation {
 model MovieRating {
   id     Int    @id @default(autoincrement())
   movieId Int   @map("movie_id")
-  source  String // "imdb", "tmdb", "rotten_tomatoes", "metacritic"
-  value   String // "8.8/10", "79%", "66/100", "7.5"
-  score   Float? // Нормализованное значение 0-10 для удобства сортировки
+  source     String // "imdb", "tmdb", "rotten_tomatoes", "metacritic"
+  value      String // "8.8/10", "79%", "66/100", "7.5"
+  score      Float? // Нормализованное значение 0-10 для удобства сортировки
+  voteCount  Int?   @map("vote_count") // Количество голосов (только для TMDB, IMDb)
 
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
 

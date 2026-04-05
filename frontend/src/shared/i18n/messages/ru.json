@@ -21,6 +21,9 @@
   },
   "moviePage": {
     "title": "Фильм",
-    "description": "Страница фильма"
+    "description": "Страница фильма",
+    "originalTitle": "Оригинальное название",
+    "totalGross": "Общие сборы",
+    "budget": "Бюджет"
   }
 }

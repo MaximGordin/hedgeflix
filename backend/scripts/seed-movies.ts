@@ -687,6 +687,7 @@ async function upsertMovieFromDetails(
       popularity: details.popularity ?? 0,
       status: details.status || null,
       homepage: details.homepage || null,
+      productionCountries: details.production_countries.map((c) => c.iso_3166_1),
       awardsText: omdbData?.Awards || null,
       oscarsWon: awards?.oscarsWon ?? 0,
       totalWins: awards?.totalWins ?? 0,
@@ -703,6 +704,7 @@ async function upsertMovieFromDetails(
       revenue: details.revenue ? BigInt(details.revenue) : BigInt(0),
       popularity: details.popularity ?? 0,
       status: details.status || null,
+      productionCountries: details.production_countries.map((c) => c.iso_3166_1),
       awardsText: omdbData?.Awards || null,
       oscarsWon: awards?.oscarsWon ?? 0,
       totalWins: awards?.totalWins ?? 0,
@@ -791,23 +793,30 @@ async function upsertMovieFromDetails(
         source: 'tmdb',
         value: `${details.vote_average}/10`,
         score: details.vote_average,
+        voteCount: details.vote_count ?? null,
       },
       update: {
         value: `${details.vote_average}/10`,
         score: details.vote_average,
+        voteCount: details.vote_count ?? null,
       },
     });
   }
 
   // Ratings - OMDb
+  const imdbVoteCount = omdbData?.imdbVotes
+    ? parseInt(omdbData.imdbVotes.replace(/,/g, ''), 10)
+    : null;
+
   if (omdbData?.Ratings) {
     for (const r of omdbData.Ratings) {
       const source = mapOmdbSource(r.Source);
       const score = normalizeRating(r.Source, r.Value);
+      const voteCount = source === 'imdb' ? imdbVoteCount : null;
       await prisma.movieRating.upsert({
         where: { movieId_source: { movieId, source } },
-        create: { movieId, source, value: r.Value, score },
-        update: { value: r.Value, score },
+        create: { movieId, source, value: r.Value, score, voteCount },
+        update: { value: r.Value, score, voteCount },
       });
     }
   }

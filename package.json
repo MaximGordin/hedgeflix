@@ -8,6 +8,9 @@
     "lint": "pnpm -r lint",
     "format": "prettier --write \"**/*.{ts,tsx,json,yaml,yml,md}\""
   },
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "devDependencies": {
     "prettier": "^3.4.2"
   }

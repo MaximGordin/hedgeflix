@@ -72,6 +72,10 @@ body {
   color: var(--color-text);
 }
 
+.container-hf {
+  @apply w-full max-w-[1560px] px-3 md:px-6 mx-auto;
+}
+
 ::backdrop {
   @apply bg-[#000]/50 cursor-pointer;
 }
