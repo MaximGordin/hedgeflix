@@ -1,7 +1,7 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export default function Home() {
-  const t = useTranslations('homePage');
+export default async function Home() {
+  const t = await getTranslations('homePage');
 
   return (
     <div>

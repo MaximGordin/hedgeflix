@@ -2,12 +2,18 @@ import { getFormatter, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import { createApiClient } from '@shared/api/api';
 import { TrendingUpIcon, Banknote } from 'lucide-react';
+import { MovieDetailResponse, RatingSource } from '@entities/movie';
+import { Metadata } from 'next';
 
-export async function generateMetadata({ params }): Promise<{ title: string; description: string }> {
+type MoviePageProps = {
+  params: Promise<{ id: string; locale: string }>;
+};
+
+export async function generateMetadata({ params }: MoviePageProps): Promise<Metadata> {
   try {
     const { id, locale } = await params;
     const api = createApiClient(locale);
-    const movie = await api(`/movies/${id}`);
+    const movie = await api<MovieDetailResponse>(`/movies/${id}`);
     return { title: movie.title, description: movie.overview };
   } catch {
     const t = await getTranslations('moviePage');
@@ -15,7 +21,7 @@ export async function generateMetadata({ params }): Promise<{ title: string; des
   }
 }
 
-const ratingSourceMap = {
+const ratingSourceMap: Record<RatingSource, { title: string; color: string; bg: string }> = {
   tmdb: {
     title: 'TMDB',
     color: '#ffffff',
@@ -38,15 +44,18 @@ const ratingSourceMap = {
   },
 };
 
-export default async function MoviePage({ params }) {
+export default async function MoviePage({ params }: MoviePageProps) {
   const t = await getTranslations('moviePage');
   const { id, locale } = await params;
   const format = await getFormatter();
 
+  // @TODO: refactor to .catch(() => null) + null-check for proper TS narrowing.
+  // When error handling gets more granular (404 vs network), switch to a fetch helper
+  // returning a discriminated union: { ok: true, data } | { ok: false, status }
   let movieData = null;
   try {
     const api = createApiClient(locale);
-    movieData = await api(`/movies/${id}`);
+    movieData = await api<MovieDetailResponse>(`/movies/${id}`);
   } catch {
     // @TODO: distinguish 404 (movie not found) from network/server errors —
     // create ApiNotFoundError and ApiError classes in api.ts, catch separately
@@ -94,7 +103,7 @@ export default async function MoviePage({ params }) {
               {movieData.productionCountries && movieData.productionCountries.length > 0 && (
                 <div>
                   {movieData.productionCountries
-                    .map((countryCode: string) => regionNames.of(countryCode))
+                    .map((countryCode) => regionNames.of(countryCode))
                     .join(', ')}
                 </div>
               )}

@@ -26,8 +26,10 @@ export class MoviesService {
         },
         productionCountries: true,
         translations: {
-          where: { language: locale },
-          select: { title: true, overview: true, tagline: true },
+          where: {
+            OR: [{ language: locale }, { language: 'en' }],
+          },
+          select: { title: true, overview: true, tagline: true, language: true },
         },
         genres: {
           select: {
@@ -36,10 +38,11 @@ export class MoviesService {
                 slug: true,
                 translations: {
                   where: {
-                    language: locale,
+                    OR: [{ language: locale }, { language: 'en' }],
                   },
                   select: {
                     name: true,
+                    language: true,
                   },
                 },
               },
@@ -62,15 +65,23 @@ export class MoviesService {
     }
 
     const { translations, certifications, revenue, budget, ...rest } = movie;
+
+    const localeTranslation =
+      translations.find((t) => t.language === locale) ??
+      translations.find((t) => t.language === 'en');
+
     return {
       ...rest,
-      ...translations.at(0),
+      ...localeTranslation,
       revenue: Number(revenue),
       budget: Number(budget),
       certification: certifications.find((c) => c.country === 'US')?.certification,
       genres: movie.genres.map((genre) => ({
         slug: genre.genre.slug,
-        name: genre.genre.translations.at(0)?.name ?? genre.genre.slug,
+        name:
+          genre.genre.translations.find((t) => t.language === locale)?.name ??
+          genre.genre.translations.find((t) => t.language === 'en')?.name ??
+          genre.genre.slug,
       })),
     };
   }
