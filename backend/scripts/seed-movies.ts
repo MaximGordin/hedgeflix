@@ -15,7 +15,7 @@
  */
 
 import 'dotenv/config';
-import { Gender, PrismaClient } from '../generated/prisma/client.ts';
+import { Gender, PrismaClient, RatingSource } from '../generated/prisma/client.ts';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 const TMDB_GENDER_MAP: Record<number, Gender> = {
@@ -343,13 +343,13 @@ function normalizeRating(source: string, value: string): number | null {
   return null;
 }
 
-function mapOmdbSource(source: string): string {
-  const map: Record<string, string> = {
+function mapOmdbSource(source: string): RatingSource | null {
+  const map: Record<string, RatingSource> = {
     'Internet Movie Database': 'imdb',
     'Rotten Tomatoes': 'rotten_tomatoes',
     'Metacritic': 'metacritic',
   };
-  return map[source] || source.toLowerCase().replace(/\s+/g, '_');
+  return map[source] ?? null;
 }
 
 // ─────────────────────────────────────────────
@@ -811,6 +811,7 @@ async function upsertMovieFromDetails(
   if (omdbData?.Ratings) {
     for (const r of omdbData.Ratings) {
       const source = mapOmdbSource(r.Source);
+      if (!source) continue;
       const score = normalizeRating(r.Source, r.Value);
       const voteCount = source === 'imdb' ? imdbVoteCount : null;
       await prisma.movieRating.upsert({

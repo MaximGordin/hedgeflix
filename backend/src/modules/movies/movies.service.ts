@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { MovieDetailResponse } from '@hedgeflix/shared/movies';
 
 @Injectable()
 export class MoviesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getMovie(movieId: number, locale: string) {
+  async getMovie(movieId: number, locale: string): Promise<MovieDetailResponse> {
     const movie = await this.prismaService.movie.findUnique({
       where: {
         id: movieId,
@@ -72,10 +73,14 @@ export class MoviesService {
 
     return {
       ...rest,
-      ...localeTranslation,
+      releaseDate: movie.releaseDate?.toISOString() ?? null,
+      language: localeTranslation?.language ?? 'en',
+      overview: localeTranslation?.overview ?? null,
+      tagline: localeTranslation?.tagline ?? null,
+      title: localeTranslation?.title ?? rest.originalTitle,
       revenue: Number(revenue),
       budget: Number(budget),
-      certification: certifications.find((c) => c.country === 'US')?.certification,
+      certification: certifications.find((c) => c.country === 'US')?.certification ?? null,
       genres: movie.genres.map((genre) => ({
         slug: genre.genre.slug,
         name:

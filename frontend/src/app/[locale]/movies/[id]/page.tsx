@@ -2,7 +2,7 @@ import { getFormatter, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import { createApiClient } from '@shared/api/api';
 import { TrendingUpIcon, Banknote } from 'lucide-react';
-import { MovieDetailResponse, RatingSource } from '@entities/movie';
+import { MovieDetailResponse, RatingSource } from '@hedgeflix/shared/movies';
 import { Metadata } from 'next';
 
 type MoviePageProps = {
@@ -49,8 +49,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
   const { id, locale } = await params;
   const format = await getFormatter();
 
-  // @TODO: refactor to .catch(() => null) + null-check for proper TS narrowing.
-  // When error handling gets more granular (404 vs network), switch to a fetch helper
+  // @TODO: when error handling gets more granular (404 vs network), switch to a fetch helper
   // returning a discriminated union: { ok: true, data } | { ok: false, status }
   let movieData = null;
   try {
@@ -93,13 +92,15 @@ export default async function MoviePage({ params }: MoviePageProps) {
               </div>
             )}
             <div className="flex items-center flex-wrap opacity-65 [&>div]:flex [&>div]:items-center [&>div]:last:after:hidden [&>div]:after:block [&>div]:after:mx-3 [&>div]:after:w-2 [&>div]:after:h-2 [&>div]:after:rounded-full [&>div]:after:bg-white">
-              <div>
-                {format.dateTime(new Date(movieData.releaseDate), {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                })}
-              </div>
+              {movieData.releaseDate && (
+                <div>
+                  {format.dateTime(new Date(movieData.releaseDate), {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </div>
+              )}
               {movieData.productionCountries && movieData.productionCountries.length > 0 && (
                 <div>
                   {movieData.productionCountries
@@ -129,7 +130,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
                 </div>
               ))}
             </div>
-            {movieData?.revenue > 0 && (
+            {movieData.revenue > 0 && (
               <div className="flex items-center gap-x-2">
                 <TrendingUpIcon size={16} />
                 {t('totalGross')}
@@ -143,7 +144,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
                 </strong>
               </div>
             )}
-            {movieData?.budget > 0 && (
+            {movieData.budget > 0 && (
               <div className="flex items-center gap-x-2">
                 <Banknote size={16} />
                 {t('budget')}

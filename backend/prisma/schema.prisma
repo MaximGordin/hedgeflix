@@ -74,7 +74,7 @@ model MovieTranslation {
 model MovieRating {
   id     Int    @id @default(autoincrement())
   movieId Int   @map("movie_id")
-  source     String // "imdb", "tmdb", "rotten_tomatoes", "metacritic"
+  source     RatingSource
   value      String // "8.8/10", "79%", "66/100", "7.5"
   score      Float? // Нормализованное значение 0-10 для удобства сортировки
   voteCount  Int?   @map("vote_count") // Количество голосов (только для TMDB, IMDb)
@@ -83,6 +83,13 @@ model MovieRating {
 
   @@unique([movieId, source])
   @@map("movie_ratings")
+}
+
+enum RatingSource {
+  tmdb
+  imdb
+  rotten_tomatoes
+  metacritic
 }
 
 model MovieVideo {

@@ -11,6 +11,7 @@
     "format:check": "prettier --check 'src/**/*.{ts,tsx,css}'"
   },
   "dependencies": {
+    "@hedgeflix/shared": "workspace:*",
     "lucide-react": "^0.577.0",
     "next": "16.2.0",
     "next-intl": "^4.8.3",

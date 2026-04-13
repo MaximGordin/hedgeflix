@@ -60,7 +60,7 @@ const mockPrismaMovie = {
 const expectedMovie = {
   posterPath: '/inception.jpg',
   backdropPath: '/inception-bg.jpg',
-  releaseDate: new Date('2010-07-16'),
+  releaseDate: new Date('2010-07-16').toISOString(),
   originalTitle: 'Inception',
   runtime: 148,
   productionCountries: ['US', 'GB'],
