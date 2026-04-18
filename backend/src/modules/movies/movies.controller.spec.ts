@@ -11,15 +11,23 @@ import { MoviesService } from './movies.service.js';
 // but that would require providing all of MoviesService's own dependencies (PrismaService, etc.).
 // For a controller unit test, a plain mock object is simpler.
 const mockMoviesService = {
-  getMovie: jest.fn<(id: number) => Promise<typeof mockMovie>>(),
+  getMovie: jest.fn<(id: number, locale: string) => Promise<typeof mockMovie>>(),
 };
 
 const mockMovie = {
   posterPath: '/inception.jpg',
+  backdropPath: '/inception-bg.jpg',
+  releaseDate: new Date('2010-07-16'),
   originalTitle: 'Inception',
-  originalLanguage: 'en',
+  title: 'Inception',
+  overview: 'A mind-bending thriller.',
   runtime: 148,
-  tmdbId: 27205,
+  revenue: 836_836_967,
+  budget: 160_000_000,
+  certification: 'PG-13',
+  productionCountries: ['US', 'GB'],
+  genres: [{ slug: 'action', name: 'Action' }],
+  ratings: [{ source: 'imdb', value: '8.8', score: 88, voteCount: 2_500_000 }],
 };
 
 describe('MoviesController', () => {
@@ -46,21 +54,19 @@ describe('MoviesController', () => {
       // The controller receives `movieId` already parsed as a number by ParseIntPipe.
       // In unit tests we call the method directly, so ParseIntPipe is not involved.
       // ParseIntPipe validation is tested in e2e tests where the full HTTP pipeline runs.
-      const result = await controller.getMovie(1);
+      const result = await controller.getMovie(1, 'en');
 
       expect(result).toEqual(mockMovie);
     });
 
-    it('should pass the movieId to the service', async () => {
+    it('should pass movieId and locale to the service', async () => {
       mockMoviesService.getMovie.mockResolvedValue(mockMovie);
 
-      await controller.getMovie(42);
+      await controller.getMovie(42, 'ru');
 
-      // Verify the controller forwards the correct id to the service.
+      // Verify the controller forwards both arguments to the service.
       // This is the main thing a controller unit test checks — correct delegation.
-      // Alternative: some teams skip controller unit tests entirely since they're thin wrappers,
-      // and rely on e2e tests instead. Both approaches are valid.
-      expect(mockMoviesService.getMovie).toHaveBeenCalledWith(42);
+      expect(mockMoviesService.getMovie).toHaveBeenCalledWith(42, 'ru');
     });
 
     it('should propagate NotFoundException from the service', async () => {
@@ -70,7 +76,7 @@ describe('MoviesController', () => {
       // the actual HTTP status code (404) — but that's a different test layer.
       mockMoviesService.getMovie.mockRejectedValue(new NotFoundException('Movie #999 not found'));
 
-      await expect(controller.getMovie(999)).rejects.toThrow(NotFoundException);
+      await expect(controller.getMovie(999, 'en')).rejects.toThrow(NotFoundException);
     });
   });
 });

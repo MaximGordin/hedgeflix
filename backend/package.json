@@ -26,6 +26,7 @@
     "format:check": "prettier --check \"{src,test}/**/*.ts\""
   },
   "dependencies": {
+    "@hedgeflix/shared": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.1",
@@ -33,6 +34,8 @@
     "@nestjs/swagger": "^11.2.6",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "dotenv": "^17.3.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"

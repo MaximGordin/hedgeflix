@@ -21,6 +21,9 @@
   },
   "moviePage": {
     "title": "Movie",
-    "description": "Movie Page"
+    "description": "Movie Page",
+    "originalTitle": "Original title",
+    "totalGross": "Total Gross",
+    "budget": "Budget"
   }
 }

@@ -11,6 +11,11 @@
   --color-deep: #f3f4f6;
   --color-muted: #6b7280;
   --color-surface: #ffffff;
+  --color-surface-opacity: color-mix(
+          in oklch,
+          var(--color-surface) 20%,
+          transparent 80%
+  );
   --color-surface-hover: #f3f4f6;
   --color-text: #111111;
 
@@ -32,6 +37,11 @@
   --color-deep: #0f0f0f;
   --color-muted: #b0b0b0;
   --color-surface: #1a1a1a;
+  --color-surface-opacity: color-mix(
+          in oklch,
+          var(--color-surface) 80%,
+          transparent 20%
+  );
   --color-surface-hover: #222222;
   --color-text: #ffffff;
 
@@ -52,6 +62,7 @@
   --color-deep: var(--color-deep);
   --color-muted: var(--color-muted);
   --color-surface: var(--color-surface);
+  --color-surface-opacity: var(--color-surface-opacity);
   --color-surface-hover: var(--color-surface-hover);
   --color-text: var(--color-text);
   --color-danger: var(--color-danger);
@@ -70,6 +81,10 @@
 body {
   background: var(--color-bg);
   color: var(--color-text);
+}
+
+.container-hf {
+  @apply w-full max-w-[1560px] px-3 md:px-6 mx-auto;
 }
 
 ::backdrop {
