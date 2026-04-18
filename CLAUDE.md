@@ -19,7 +19,7 @@ hedgeflix/
 ├── backend/          # NestJS
 ├── frontend/         # Next.js App Router
 ├── packages/
-│   └── shared/       # @hedgeflix/shared — shared types, DTOs, constants (planned)
+│   └── shared/       # @hedgeflix/shared — shared types, DTOs, constants
 ├── package.json      # workspace root
 └── pnpm-workspace.yaml
 ```
@@ -59,7 +59,7 @@ Short messages (1-3 sentences). No Co-Authored-By or attribution lines. Title + 
 ## Testing
 
 - **Framework:** Jest 30 + ts-jest (ESM mode)
-- **Run:** `cd backend && pnpm test`
+- **Run:** `pnpm --filter backend test`
 - **ESM quirks:** Project uses `"type": "module"`, so Jest requires `--experimental-vm-modules` (already in scripts). Import `describe`, `it`, `expect`, `jest` from `@jest/globals` (not global in ESM).
 - **Pattern:** Unit tests colocated with source files (`*.spec.ts`). Mock Prisma in services, mock services in controllers.
 - **Migration to Vitest planned** (see README roadmap).

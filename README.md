@@ -23,7 +23,7 @@ hedgeflix/
 │   └── generated/          # Prisma client (auto-generated, git-ignored)
 ├── frontend/               # Next.js App Router + FSD
 ├── packages/
-│   └── shared/             # @hedgeflix/shared — shared types, DTOs, constants (planned)
+│   └── shared/             # @hedgeflix/shared — shared types, DTOs, constants
 ├── package.json            # Workspace root
 └── pnpm-workspace.yaml
 ```
@@ -32,7 +32,7 @@ hedgeflix/
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 24+
 - pnpm
 - Docker (for PostgreSQL)
 
@@ -186,7 +186,7 @@ pnpm sync:relations
 ### Planned
 - [x] Frontend scaffold (Next.js App Router + FSD + header, theme switcher)
 - [ ] Auth module (registration, login, JWT)
-- [ ] Movie browsing UI (catalog, filters, movie page)
+- [ ] Movie browsing UI (catalog with filters — movie detail page done, list is a stub)
 - [ ] User features (comments, bookmarks, ratings, watch history)
 - [x] i18n (next-intl, language switcher, en/ru/nl)
 
@@ -194,6 +194,7 @@ pnpm sync:relations
 - [ ] Migrate from Jest to Vitest (backend + frontend)
 - [x] CI/CD (GitHub Actions — lint + tests on push/PR)
 - [ ] Deploy: Vercel (frontend) + Render (backend) + Neon (PostgreSQL)
+- [ ] Upgrade Node.js to 24 LTS (enables `Intl.DurationFormat`)
 
 ### To Explore
 - [ ] **LLM auto-translation** — translate movie descriptions to unsupported languages (e.g. Belarusian) via Claude Haiku (~$5 per 15K movies)
@@ -209,19 +210,19 @@ Swagger UI is available at `/api/doc` when the backend is running.
 
 ```bash
 # Start backend in watch mode
-cd backend && pnpm start:dev
+pnpm --filter backend start:dev
 
 # Start frontend in dev mode
-cd frontend && pnpm dev
+pnpm --filter frontend dev
 
 # Run tests
-cd backend && pnpm test
+pnpm --filter backend test
 
 # Lint
-cd backend && pnpm lint
-cd frontend && pnpm lint
+pnpm --filter backend lint
+pnpm --filter frontend lint
 
 # Format
-cd backend && pnpm format
-cd frontend && pnpm format
+pnpm --filter backend format
+pnpm --filter frontend format
 ```

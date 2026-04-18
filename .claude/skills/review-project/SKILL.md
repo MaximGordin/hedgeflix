@@ -168,6 +168,17 @@ Key areas to verify against official docs:
 - **Feature-Sliced Design**: layer rules, slice isolation, public API patterns
 - **Tailwind CSS**: configuration, design system integration, dark mode
 
+## Self-review before output
+
+Before presenting findings to the user, do a self-review pass over every finding:
+
+1. **Verify the claim**: Re-read the exact line/file referenced. Does the code actually do what you say it does? Don't rely on memory or assumptions — re-check.
+2. **Check context**: Is the "problem" intentional? Is there a comment, TODO, or surrounding code that explains why it's done this way?
+3. **Test the fix**: Would your suggested fix actually work? Does the API/function/type you're recommending exist?
+4. **Drop false positives**: If a finding doesn't hold up after verification, remove it silently. Don't mention it was considered and dropped.
+
+This step is mandatory. Skipping it leads to false positives that waste the user's time and erode trust in reviews.
+
 ## Rules
 
 - This is a DEEP review — take your time, read every file, check everything
