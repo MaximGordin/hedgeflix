@@ -4,21 +4,23 @@ import { createApiClient } from '@shared/api/api';
 import { TrendingUpIcon, Banknote } from 'lucide-react';
 import { MovieDetailResponse, RatingSource } from '@hedgeflix/shared/movies';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 type MoviePageProps = {
   params: Promise<{ id: string; locale: string }>;
 };
 
 export async function generateMetadata({ params }: MoviePageProps): Promise<Metadata> {
-  try {
-    const { id, locale } = await params;
-    const api = createApiClient(locale);
-    const movie = await api<MovieDetailResponse>(`/movies/${id}`);
-    return { title: movie.title, description: movie.overview };
-  } catch {
-    const t = await getTranslations('moviePage');
-    return { title: t('title'), description: t('description') };
+  const { id, locale } = await params;
+  const api = createApiClient(locale);
+  const apiResponse = await api<MovieDetailResponse>(`/movies/${id}`);
+
+  if (!apiResponse.ok) {
+    if (apiResponse.status === 404) notFound();
+    return { title: 'Hedgeflix' };
   }
+  
+  return { title: apiResponse.data.title, description: apiResponse.data.overview };
 }
 
 const ratingSourceMap: Record<RatingSource, { title: string; color: string; bg: string }> = {
@@ -49,18 +51,16 @@ export default async function MoviePage({ params }: MoviePageProps) {
   const { id, locale } = await params;
   const format = await getFormatter();
 
-  // @TODO: when error handling gets more granular (404 vs network), switch to a fetch helper
-  // returning a discriminated union: { ok: true, data } | { ok: false, status }
-  let movieData = null;
-  try {
-    const api = createApiClient(locale);
-    movieData = await api<MovieDetailResponse>(`/movies/${id}`);
-  } catch {
-    // @TODO: distinguish 404 (movie not found) from network/server errors —
-    // create ApiNotFoundError and ApiError classes in api.ts, catch separately
+  const api = createApiClient(locale);
+  const apiResponse = await api<MovieDetailResponse>(`/movies/${id}`);
+
+  if (!apiResponse.ok) {
+    if (apiResponse.status === 404) return notFound();
     return <div>Service unavailable, try later</div>;
   }
+  const movieData = apiResponse.data;
   const regionNames = new Intl.DisplayNames(locale, { type: 'region' });
+
   return (
     <div>
       <div className="md:h-[480px] relative before:absolute before:inset-0 before:bg-[#000]/80 before:z-10">
@@ -164,8 +164,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
                 {movieData.ratings.map((rating) => (
                   <div
                     key={rating.source}
-                    // @TODO make bg-surface/80 universal for light/night theme. Change variable
-                    className="flex items-center p-3 gap-3 bg-surface/80 rounded-sm"
+                    className="flex items-center p-3 gap-3 bg-surface-opacity rounded-sm"
                   >
                     <div
                       style={{

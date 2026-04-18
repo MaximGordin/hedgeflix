@@ -1,22 +1,44 @@
+type ApiResult<T> =
+  | {
+      ok: true;
+      data: T;
+    }
+  | {
+      ok: false;
+      status: number | null;
+    };
+
 export const createApiClient = (locale: string = 'en') => {
-  // @TODO Вынести в .env. Возможно есть способ получить данные из .env бэкэнда или вынести в общий root.
-  const API_HOST = 'http://localhost';
-  const API_BASE_PATH = 'api';
-  const API_PORT = 3001;
-  const API_URL = `${API_HOST}:${API_PORT}/${API_BASE_PATH}`;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  return async <T>(endPoint: string, options?: RequestInit) => {
-    const res = await fetch(`${API_URL}${endPoint}`, {
-      signal: AbortSignal.timeout(5000),
-      next: { revalidate: 3600 },
-      ...options,
-      headers: {
-        'Accept-Language': locale,
-        ...options?.headers,
-      },
-    });
+  return async function request<T>(endPoint: string, options?: RequestInit): Promise<ApiResult<T>> {
+    try {
+      const res = await fetch(`${API_URL}${endPoint}`, {
+        signal: AbortSignal.timeout(5000),
+        next: { revalidate: 3600 },
+        ...options,
+        headers: {
+          'Accept-Language': locale,
+          ...options?.headers,
+        },
+      });
+      if (!res.ok) {
+        return {
+          ok: false,
+          status: res.status,
+        };
+      }
+      const data = await res.json();
 
-    if (!res.ok) throw new Error(`API error: ${res.status}`);
-    return await res.json() as Promise<T>;
+      return {
+        ok: true,
+        data: data,
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        status: null,
+      };
+    }
   };
 };
