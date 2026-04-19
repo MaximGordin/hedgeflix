@@ -6,12 +6,27 @@
     "dev:frontend": "pnpm --filter frontend dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
-    "format": "prettier --write \"**/*.{ts,tsx,json,yaml,yml,md}\""
+    "format": "pnpm -r format",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.css": [
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
   },
   "engines": {
     "node": ">=24.0.0"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.4.2"
   }
 }
