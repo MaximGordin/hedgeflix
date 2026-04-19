@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Light theme (default) */
 :root {
@@ -11,11 +11,7 @@
   --color-deep: #f3f4f6;
   --color-muted: #6b7280;
   --color-surface: #ffffff;
-  --color-surface-opacity: color-mix(
-          in oklch,
-          var(--color-surface) 20%,
-          transparent 80%
-  );
+  --color-surface-opacity: color-mix(in oklch, var(--color-surface) 20%, transparent 80%);
   --color-surface-hover: #f3f4f6;
   --color-text: #111111;
 
@@ -37,11 +33,7 @@
   --color-deep: #0f0f0f;
   --color-muted: #b0b0b0;
   --color-surface: #1a1a1a;
-  --color-surface-opacity: color-mix(
-          in oklch,
-          var(--color-surface) 80%,
-          transparent 20%
-  );
+  --color-surface-opacity: color-mix(in oklch, var(--color-surface) 80%, transparent 20%);
   --color-surface-hover: #222222;
   --color-text: #ffffff;
 

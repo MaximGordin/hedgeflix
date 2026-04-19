@@ -9,7 +9,7 @@ import { Dialog } from '@shared/ui/Dialog';
 
 type LangSwitcherProps = {
   className?: string;
-}
+};
 
 export const LangSwitcher = ({ className }: LangSwitcherProps) => {
   const t = useTranslations('langSwitcher');
@@ -18,8 +18,7 @@ export const LangSwitcher = ({ className }: LangSwitcherProps) => {
   const currentLocale = useLocale();
 
   function toggleLanguage(locale: string) {
-    router.replace(pathname, { locale },
-    );
+    router.replace(pathname, { locale });
   }
 
   return (

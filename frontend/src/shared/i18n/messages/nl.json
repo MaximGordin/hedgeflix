@@ -19,6 +19,12 @@
   "homePage": {
     "title": "Startpagina"
   },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "description": "Oeps! Deze egel is van het pad afgedwaald. De pagina die je zoekt bestaat niet of is verplaatst.",
+    "goHome": "Naar startpagina",
+    "browseCatalog": "Catalogus bekijken"
+  },
   "moviePage": {
     "title": "Film",
     "description": "Filmpagina",

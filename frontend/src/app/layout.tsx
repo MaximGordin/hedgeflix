@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { getLocale } from 'next-intl/server';
+import { ThemeScript } from '@shared/lib/theme/ThemeScript';
 import '@app/globals.css';
 
 const inter = Inter({
@@ -27,23 +28,9 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function () {
-              try {
-                var s = JSON.parse(localStorage.getItem('theme') || '{}');
-                var t = (s && s.state && s.state.theme) || 'system';
-                var d =
-                  t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme:dark)').matches);
-                document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
-              } catch (e) {}
-            })()`,
-          }}
-        />
+        <ThemeScript />
       </head>
-      <body className="min-h-full">
-        {children}
-      </body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }
