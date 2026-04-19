@@ -193,6 +193,7 @@ pnpm sync:relations
 - [ ] Platform-aware keyboard shortcuts (`<Kbd>` component + `usePlatform` hook)
 - [ ] Migrate from Jest to Vitest (backend + frontend)
 - [x] CI/CD (GitHub Actions — lint + tests on push/PR)
+- [x] Git hooks (Husky + lint-staged — pre-commit: Prettier + ESLint, pre-push: tests)
 - [ ] Deploy: Vercel (frontend) + Render (backend) + Neon (PostgreSQL)
 - [ ] Upgrade Node.js to 24 LTS (enables `Intl.DurationFormat`)
 

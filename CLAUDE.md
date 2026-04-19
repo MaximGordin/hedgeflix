@@ -71,6 +71,7 @@ Short messages (1-3 sentences). No Co-Authored-By or attribution lines. Title + 
 - Frontend dev: `pnpm --filter frontend dev`
 - Format check: `pnpm --filter backend format:check` / `pnpm --filter frontend format:check`
 - CI: GitHub Actions (`ci.yml`) — runs lint + format:check + tests on push to main and on PRs
+- Git hooks: Husky + lint-staged (pre-commit: Prettier + ESLint on staged files, pre-push: backend tests)
 
 ## Previous Version Reference
 
