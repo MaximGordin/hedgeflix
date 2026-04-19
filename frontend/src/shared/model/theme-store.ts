@@ -13,7 +13,7 @@ export const useThemeStore = create<ThemeState>()(
     (set) => ({
       theme: null,
       setTheme: (theme) => {
-        set({theme});
+        set({ theme });
       },
     }),
     { name: 'theme' },

@@ -1,7 +1,3 @@
 export default function MoviesCatalog() {
-  return (
-    <div>
-      Movies
-    </div>
-  );
+  return <div>Movies</div>;
 }

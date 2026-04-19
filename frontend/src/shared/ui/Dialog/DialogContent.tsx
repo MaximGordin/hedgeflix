@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useRef, MouseEvent  } from 'react';
+import { ReactNode, useEffect, useRef, MouseEvent } from 'react';
 import { useDialogContext } from './DialogContext';
 
 export function DialogContent({ children }: { children: ReactNode }) {

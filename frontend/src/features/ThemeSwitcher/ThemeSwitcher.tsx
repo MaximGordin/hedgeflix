@@ -15,7 +15,7 @@ const Themes = [
   { code: 'system', title: 'system', Icon: Monitor },
 ] as const;
 
-export const ThemeSwitcher = ({className}: ThemeSwitcherProps) => {
+export const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
   const t = useTranslations('themeSwitcher');
   const currentTheme = useThemeStore((s) => s.theme);
   const setCurrentTheme = useThemeStore((s) => s.setTheme);
@@ -39,12 +39,13 @@ export const ThemeSwitcher = ({className}: ThemeSwitcherProps) => {
     <div className={className}>
       {Themes.map((theme) => {
         return (
-          <button aria-label={t('setTheme', { theme: t(theme.title) })}
-                  key={theme.code}
-                  className={`flex items-center justify-center gap-1 px-3 text-muted cursor-pointer rounded-sm ${currentTheme === theme.code ? 'bg-accent text-white' : ''}`}
-                  onClick={() => {
-                    setCurrentTheme(theme.code);
-                  }}
+          <button
+            aria-label={t('setTheme', { theme: t(theme.title) })}
+            key={theme.code}
+            className={`flex items-center justify-center gap-1 px-3 text-muted cursor-pointer rounded-sm ${currentTheme === theme.code ? 'bg-accent text-white' : ''}`}
+            onClick={() => {
+              setCurrentTheme(theme.code);
+            }}
           >
             <theme.Icon size={16} />
             <span className="text-sm font-semibold">{t(theme.title)}</span>
@@ -53,4 +54,4 @@ export const ThemeSwitcher = ({className}: ThemeSwitcherProps) => {
       })}
     </div>
   );
-}
+};

@@ -24,13 +24,7 @@ export function Logo({
 }: LogoProps) {
   return (
     <Link href="/" className={`flex items-center gap-x-1 ${className}`}>
-      <Image
-        src={logo}
-        width={width}
-        height={height}
-        alt={alt}
-        loading="eager"
-      />
+      <Image src={logo} width={width} height={height} alt={alt} loading="eager" />
       <div className={`text-xl sm:text-2xl text-accent ${oswald.className}`}>
         Hedge<span>Flix</span>
       </div>

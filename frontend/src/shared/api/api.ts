@@ -34,7 +34,7 @@ export const createApiClient = (locale: string = 'en') => {
         ok: true,
         data: data,
       };
-    } catch (error) {
+    } catch {
       return {
         ok: false,
         status: null,

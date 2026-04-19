@@ -19,6 +19,12 @@
   "homePage": {
     "title": "Home Page"
   },
+  "notFound": {
+    "title": "Page not found",
+    "description": "Oops! This hedgehog wandered off the path. The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go to Home",
+    "browseCatalog": "Browse Catalog"
+  },
   "moviePage": {
     "title": "Movie",
     "description": "Movie Page",

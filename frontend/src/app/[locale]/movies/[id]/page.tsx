@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: MoviePageProps): Promise<Meta
     if (apiResponse.status === 404) notFound();
     return { title: 'Hedgeflix' };
   }
-  
+
   return { title: apiResponse.data.title, description: apiResponse.data.overview };
 }
 
